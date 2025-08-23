@@ -12,7 +12,6 @@ public class NpcController : MonoBehaviour
         AI=2,
     }
 
-
     [SerializeField] OpenAiApiClient apiClient; // 인스펙터 창에서 OpenAiApiClient가 있는 오브젝트를 연결
     [SerializeField] TextMeshProUGUI chatText; //채팅 텍스트 오브젝트 원본
     [SerializeField] Button sendButton;
@@ -90,7 +89,6 @@ public class NpcController : MonoBehaviour
             default:
                 break;
         }
-
 
         return newChat;
     }

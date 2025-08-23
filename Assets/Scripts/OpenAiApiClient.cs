@@ -64,9 +64,10 @@ public class OpenAiApiClient : MonoBehaviour
         // 요청 데이터 생성
         var requestData = new ChatRequest
         {
-            model = "gpt-3.5-turbo", // 또는 "gpt-4" 등 원하는 모델
+            model = "gpt-3.5-turbo",
             messages = new List<ChatMessage>
             {
+                //enum 타입에 대한 content 지정 필요 - 이것도 테이블로 관리 필요
                 new ChatMessage { role = "system", content = "You are a helpful assistant in a fantasy game." },
                 new ChatMessage { role = "user", content = prompt }
             }
@@ -90,7 +91,7 @@ public class OpenAiApiClient : MonoBehaviour
 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                    // 4. 응답 데이터 처리
+                    //응답 데이터 처리
                     string jsonResponse = request.downloadHandler.text;
                     ChatResponse responseData = JsonUtility.FromJson<ChatResponse>(jsonResponse);
 
