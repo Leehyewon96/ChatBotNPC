@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,7 +38,8 @@ public class NpcController : MonoBehaviour
 
     void SendQuestion(string question)
     {
-        AddChat(question, ChatType.User);
+        var userChat = AddChat(question, ChatType.User);
+        StartCoroutine(RefreshScrollRect(userChat));
 
         OnPlayerAskQuestion(question);
         userInput.text = string.Empty;
@@ -55,11 +57,21 @@ public class NpcController : MonoBehaviour
         string response = await apiClient.SendMessageToOpenAI(playerQuestion);
 
         // UI에 최종 답변 표시
+        newChat.gameObject.SetActive(false);
         newChat.SetText(response);
-        newChat.SetLayoutDirty();
         sendButton.interactable = true;
+        StartCoroutine(RefreshScrollRect(newChat));
 
         //스트림 출력 추가 필요
+    }
+
+    IEnumerator RefreshScrollRect(TextMeshProUGUI newChat)
+    {
+        yield return new WaitForEndOfFrame();
+        newChat.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+        scrollRect.verticalNormalizedPosition = 0f;
     }
 
     TextMeshProUGUI AddChat(string chat, ChatType chatType)
