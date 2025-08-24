@@ -90,7 +90,7 @@ public class OpenAiApiClient : MonoBehaviour
 
         if (VectorDBManager.Instance == null) return "VectorDBManager가 연결되지 않았습니다.";
 
-        // 1. VectorDBManager를 사용해 DB에서 가장 유사한 정보(Context)를 검색합니다.
+        //VectorDBManager를 사용해 DB에서 가장 유사한 정보(Context)를 검색
         VectorEntry contextEntry = await VectorDBManager.Instance.FindMostSimilarEntry(userMessage);
         string contextSentence = "관련 정보를 찾지 못했습니다."; // 기본값
         if (contextEntry != null)
@@ -98,7 +98,7 @@ public class OpenAiApiClient : MonoBehaviour
             contextSentence = contextEntry.sentence;
         }
 
-        // 2. 검색된 정보(Context)를 포함하여 최종 프롬프트를 구성합니다.
+        //검색된 정보(Context)를 포함하여 최종 프롬프트를 구성
         string systemPrompt = "당신은 '에테리아 연대기' 게임의 친절하고 박식한 NPC입니다.";
         string finalPrompt = $"참고 자료: \"{contextSentence}\"\n\n위 참고 자료를 바탕으로 다음 질문에 대해 대답해주세요:\n질문: \"{userMessage}\"";
 
@@ -198,7 +198,7 @@ public class OpenAiApiClient : MonoBehaviour
 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                    // 4. 응답 데이터 처리
+                    //응답 데이터 처리
                     string jsonResponse = request.downloadHandler.text;
                     EmbeddingData responseData = JsonUtility.FromJson<EmbeddingData>(jsonResponse);
 
